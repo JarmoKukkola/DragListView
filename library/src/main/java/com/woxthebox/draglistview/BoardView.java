@@ -384,6 +384,7 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
 
     private DragItemRecyclerView getCurrentRecyclerView(float x) {
         for (DragItemRecyclerView list : mLists) {
+            if(lockLastColumn && list==mLists.get(mLists.size()-1))continue;
             View parent = (View) list.getParent();
             if (parent.getLeft() <= x && parent.getRight() > x) {
                 return list;
@@ -515,6 +516,12 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
 
     public void reverse(boolean reverseDirection) {
         this.reverseDirection = reverseDirection;
+    }
+
+    boolean lockLastColumn = false;
+
+    public void setLockLastColumn(boolean lockLastColumn) {
+        this.lockLastColumn = lockLastColumn;
     }
 
     public void removeItem(int column, int row) {
@@ -829,7 +836,9 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
             columnDragView.setOnLongClickListener(new OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    startDragColumn(recyclerView, mTouchX, mTouchY);
+                    if(!lockLastColumn || recyclerView != mLists.get(mLists.size()-1)) {
+                        startDragColumn(recyclerView, mTouchX, mTouchY);
+                    }
                     return true;
                 }
             });
