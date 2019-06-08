@@ -31,12 +31,14 @@ import android.view.ViewConfiguration;
 
 public class DragItemRecyclerView extends RecyclerView implements AutoScroller.AutoScrollListener {
 
+    private float dropHeight =0;
+
     public interface DragItemListener {
         void onDragStarted(int itemPosition, float x, float y);
 
         void onDragging(int itemPosition, float x, float y);
 
-        void onDragEnded(int newItemPosition);
+        void onDragEnded(int newItemPosition, float dropHeight);
     }
 
     public interface DragItemCallback {
@@ -285,6 +287,9 @@ public class DragItemRecyclerView extends RecyclerView implements AutoScroller.A
     private void updateDragPositionAndScroll() {
         View view = findChildView(mDragItem.getX(), mDragItem.getY());
         int newPos = getChildLayoutPosition(view);
+
+        dropHeight = mDragItem.getY();
+
         if (newPos == NO_POSITION || view == null) {
             return;
         }
@@ -468,7 +473,7 @@ public class DragItemRecyclerView extends RecyclerView implements AutoScroller.A
 
         mDragState = DragState.DRAG_ENDED;
         if (mListener != null) {
-            mListener.onDragEnded(mDragItemPosition);
+            mListener.onDragEnded(mDragItemPosition, dropHeight);
         }
 
         mDragItemId = NO_ID;

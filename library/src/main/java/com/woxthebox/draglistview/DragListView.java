@@ -156,7 +156,7 @@ public class DragListView extends FrameLayout {
             }
 
             @Override
-            public void onDragEnded(int newItemPosition) {
+            public void onDragEnded(int newItemPosition, float dropHeight) {
                 if (mDragListListener != null) {
                     mDragListListener.onItemDragEnded(mDragStartPosition, newItemPosition);
                 }
