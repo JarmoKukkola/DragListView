@@ -45,7 +45,7 @@ import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 public class BoardView extends HorizontalScrollView implements AutoScroller.AutoScrollListener {
 
-    private float dropHeight;
+    private float dragHeight;
 
     public interface BoardCallback {
         boolean canDragItemAtPosition(int column, int row);
@@ -67,6 +67,8 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
         void onColumnDragStarted(int position);
 
         void onColumnDragChangedPosition(int oldPosition, int newPosition);
+
+        void onDragged(float dragHeight);
 
         void onColumnDragEnded(int position, float dropHeight);
     }
@@ -236,10 +238,11 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
         mTouchX = event.getX();
         mTouchY = event.getY();
         if (isDragging()) {
+            dragHeight = mTouchY;
+            mBoardListener.onDragged(dragHeight);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_MOVE:
                     if (!mAutoScroller.isAutoScrolling()) {
-                        dropHeight = mTouchY;
                         updateScrollPosition();
                     }
                     break;
@@ -769,7 +772,7 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
                 mRootLayout.removeView(mDragColumn.getDragItemView());
 
                 if (mBoardListener != null) {
-                    mBoardListener.onColumnDragEnded(getColumnOfList(mCurrentRecyclerView), dropHeight);
+                    mBoardListener.onColumnDragEnded(getColumnOfList(mCurrentRecyclerView), dragHeight);
                 }
             }
         });
