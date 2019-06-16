@@ -121,7 +121,7 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
     private ArrayList<View> mHeaders = new ArrayList<>();
     private DragItemRecyclerView mCurrentRecyclerView;
     public DragItem mDragItem;
-    private DragItem mDragColumn;
+    public DragItem mDragColumn;
     private BoardListener mBoardListener;
     private BoardCallback mBoardCallback;
     private boolean mSnapToColumnWhenScrolling = true;
