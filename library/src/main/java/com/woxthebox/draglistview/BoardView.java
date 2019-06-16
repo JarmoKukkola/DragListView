@@ -115,12 +115,12 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
     private Scroller mScroller;
     private AutoScroller mAutoScroller;
     private GestureDetector mGestureDetector;
-    private FrameLayout mRootLayout;
+    public FrameLayout mRootLayout;
     private LinearLayout mColumnLayout;
     private ArrayList<DragItemRecyclerView> mLists = new ArrayList<>();
     private ArrayList<View> mHeaders = new ArrayList<>();
     private DragItemRecyclerView mCurrentRecyclerView;
-    private DragItem mDragItem;
+    public DragItem mDragItem;
     private DragItem mDragColumn;
     private BoardListener mBoardListener;
     private BoardCallback mBoardCallback;
